@@ -10,21 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout code từ repository
+      # 1. Checkout code 
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Thiết lập môi trường Python
+      # 2. Create environment Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'  # Chọn phiên bản Python
+          python-version: '3.9'
 
-      # 3. Cài đặt các thư viện cần thiết (nếu có file `requirements.txt`)
-      - name: Install dependencies
+      # 3. Set xvfb
+      - name: Install dependencies for tkinter
         run: |
-          if [ -f "requirements.txt" ]; then pip install -r requirements.txt; fi
+          sudo apt-get update
+          sudo apt-get install -y xvfb
 
-      # 4. Chạy file Python Beating_heart.py
-      - name: Run Beating_heart Script
-        run: python Beating_heart.py
+      # 4. Run Xvfb 
+      - name: Run Beating_heart with Xvfb
+        run: |
+          xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" python Beating_heart.py
