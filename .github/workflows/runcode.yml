@@ -1,0 +1,30 @@
+name: Run Beating_heart Script
+
+on:
+  push:
+    branches:
+      - main  # Kích hoạt workflow khi có code mới được đẩy lên nhánh `main`
+
+jobs:
+  run-code:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout code từ repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Thiết lập môi trường Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'  # Chọn phiên bản Python
+
+      # 3. Cài đặt các thư viện cần thiết (nếu có file `requirements.txt`)
+      - name: Install dependencies
+        run: |
+          if [ -f "requirements.txt" ]; then pip install -r requirements.txt; fi
+
+      # 4. Chạy file Python Beating_heart.py
+      - name: Run Beating_heart Script
+        run: python Beating_heart.py
